@@ -3,7 +3,7 @@
 #include <sys/time.h>
 #include <pthread.h>
 
-int num_count = 10000000; //Wie oft pro Thread der Counter inkrementiert wird
+const int NUM_COUNT = 10000000; //Wie oft pro Thread der Counter inkrementiert wird
 
 typedef struct {
     int value;
@@ -38,7 +38,7 @@ int get(counter *c) {
 }
 
 void* worker_counter() {
-    for (int i = 0; i < num_count; ++i) {
+    for (int i = 0; i < NUM_COUNT; ++i) {
         increment(&c1);
     }
     return NULL;
