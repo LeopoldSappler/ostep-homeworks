@@ -3,14 +3,14 @@
 #include <sys/time.h>
 #include <pthread.h>
 
-int num_count = 10000; //Wie oft pro Thread der Counter inkrementiert wird
+int num_count = 10000000; //Wie oft pro Thread der Counter inkrementiert wird
 
 typedef struct {
     int value;
     pthread_mutex_t lock;
 }counter;
 
-counter c; //Globaler Counter
+counter c1; //Globaler Counter
 
 void init(counter *c) {
     c->value = 0;
@@ -39,7 +39,7 @@ int get(counter *c) {
 
 void* worker_counter() {
     for (int i = 0; i < num_count; ++i) {
-        increment(&c);
+        increment(&c1);
     }
     return NULL;
 }
@@ -50,14 +50,17 @@ int main() {
     struct timeval end_tv;
 
     //Counter mit 1 Thread
-    init(&c);
+    init(&c1);
     gettimeofday(&start_tv, NULL);
     pthread_create(&t1, NULL, worker_counter, NULL);
     pthread_join(t1, NULL);
     gettimeofday(&end_tv, NULL);
 
+    printf("Counter mit 1 Thread: Value vom Counter = %d\n", get(&c1));
+    printf("Millisekunden: %ld\n", (1000000 * (end_tv.tv_sec - start_tv.tv_sec) + (end_tv.tv_usec - start_tv.tv_usec)) / 1000);
+
     //Counter mit 2 Threads
-    init(&c);
+    init(&c1);
     gettimeofday(&start_tv, NULL);
     pthread_create(&t1, NULL, worker_counter, NULL);
     pthread_create(&t2, NULL, worker_counter, NULL);
@@ -65,7 +68,36 @@ int main() {
     pthread_join(t2, NULL);
     gettimeofday(&end_tv, NULL);
 
-    //Counter mit 3 Threads
+    printf("Counter mit 2 Threads: Value vom Counter = %d\n", get(&c1));
+    printf("Millisekunden: %ld\n", (1000000 * (end_tv.tv_sec - start_tv.tv_sec) + (end_tv.tv_usec - start_tv.tv_usec)) / 1000);
 
-    printf("Counter mit 2 Threads -> Sekunden: %ld, Mikrosekunden: %ld\n", end_tv.tv_sec - start_tv.tv_sec, end_tv.tv_usec - start_tv.tv_usec);
+    //Counter mit 3 Threads
+    init(&c1);
+    gettimeofday(&start_tv, NULL);
+    pthread_create(&t1, NULL, worker_counter, NULL);
+    pthread_create(&t2, NULL, worker_counter, NULL);
+    pthread_create(&t3, NULL, worker_counter, NULL);
+    pthread_join(t1, NULL);
+    pthread_join(t2, NULL);
+    pthread_join(t3, NULL);
+    gettimeofday(&end_tv, NULL);
+
+    printf("Counter mit 3 Threads: Value vom Counter = %d\n", get(&c1));
+    printf("Millisekunden: %ld\n", (1000000 * (end_tv.tv_sec - start_tv.tv_sec) + (end_tv.tv_usec - start_tv.tv_usec)) / 1000);
+
+    //Counter mit 4 Threads
+    init(&c1);
+    gettimeofday(&start_tv, NULL);
+    pthread_create(&t1, NULL, worker_counter, NULL);
+    pthread_create(&t2, NULL, worker_counter, NULL);
+    pthread_create(&t3, NULL, worker_counter, NULL);
+    pthread_create(&t4, NULL, worker_counter, NULL);
+    pthread_join(t1, NULL);
+    pthread_join(t2, NULL);
+    pthread_join(t3, NULL);
+    pthread_join(t4, NULL);
+    gettimeofday(&end_tv, NULL);
+
+    printf("Counter mit 4 Threads: Value vom Counter = %d\n", get(&c1));
+    printf("Millisekunden: %ld\n", (1000000 * (end_tv.tv_sec - start_tv.tv_sec) + (end_tv.tv_usec - start_tv.tv_usec)) / 1000);
 }
