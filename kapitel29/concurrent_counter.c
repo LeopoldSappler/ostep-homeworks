@@ -23,6 +23,7 @@ void increment(counter *c) {
     pthread_mutex_unlock(&c->lock);
 }
 
+// nicht benutzt
 void decrement(counter *c) {
     pthread_mutex_lock(&c->lock);
     c->value--;
@@ -44,9 +45,16 @@ void* worker_counter() {
 }
 
 int main() {
-    pthread_t t1, t2;
+    pthread_t t1, t2, t3, t4;
     struct timeval start_tv;
     struct timeval end_tv;
+
+    //Counter mit 1 Thread
+    init(&c);
+    gettimeofday(&start_tv, NULL);
+    pthread_create(&t1, NULL, worker_counter, NULL);
+    pthread_join(t1, NULL);
+    gettimeofday(&end_tv, NULL);
 
     //Counter mit 2 Threads
     init(&c);
@@ -57,9 +65,7 @@ int main() {
     pthread_join(t2, NULL);
     gettimeofday(&end_tv, NULL);
 
+    //Counter mit 3 Threads
+
     printf("Counter mit 2 Threads -> Sekunden: %ld, Mikrosekunden: %ld\n", end_tv.tv_sec - start_tv.tv_sec, end_tv.tv_usec - start_tv.tv_usec);
-}
-
-void test_counter() {
-
 }
