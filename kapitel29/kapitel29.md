@@ -1,6 +1,5 @@
-# Kapitel 29
-# Lock-Based Concurrent Data Structures 
-### Gruppe 6: Niels Hensler, Leopold Sappler
+## Kapitel 29 - Lock-Based Concurrent Data Structures 
+#### Gruppe 6: Niels Hensler, Leopold Sappler
 
 1. We’ll start by redoing the measurements within this chapter. Use
 the call gettimeofday() to measure time within your program.
@@ -16,17 +15,17 @@ messen kann ist eine Mikrosekunde.
    increases. How many CPUs are available on the system you are
    using? Does this number impact your measurements at all?
 
-_Implementierung -> concurrent_counter.c_  
+_Implementierung -> concurrent_counter.c_ (Quelle: OSTEP Chapter 29)  
 Mit höherer Threadanzahl steigt auch die gemessene Zeit beim Concurrent Counter, wie in Figure 1 zu sehen ist. Hier wurden 1-4 Threads getestet, die jeweils bis 10.000.000 hochzählen.
 Das System auf dem getestet wurde hat 6 CPUs. 
 
-![Concurrent Counter](image-sources/concurrent_counter_diagramm.png){width=350}
+![Concurrent Counter](image-sources/concurrent_counter_diagramm.png){width=400}
 
 3. Next, build a version of the sloppy counter. Once again, measure its
    performance as the number of threads varies, as well as the threshold. Do the numbers match what you see in the chapter?
 
-_Implementierung -> sloppy_counter.c_  
-
+_Implementierung -> sloppy_counter.c_ (Quelle: OSTEP Chapter 29)  
+Mit höherer Threadanzahl sollte eigentlich beim Sloppy Counter die Zeit sehr gering sein, jedoch funktioniert das bei unserem Code nicht, wie man in Figure 2 sehen kann. Grund ???
 
 ![Concurrent Counter vs Sloppy Counter](image-sources/concurrent_vs_sloppy_diagramm.png){width=400}
 
@@ -35,6 +34,14 @@ _Implementierung -> sloppy_counter.c_
     to understand how it works, and then implement it. Measure its
     performance. When does a hand-over-hand list work better than a
     standard list as shown in the chapter?
+
+_Implementierung -> sloppy_counter.c_ (Quelle: OSTEP Chapter 29, https://www.geeksforgeeks.org/linked-list-set-1-introduction)  
+In Figure 3 sieht man, wie lange 1-8 Threads brauchen, um jeweils 1.000.000 Elemente in die Concurrent und die Hand-Over-Hand Liste einzufügen. 
+
+![Lists: Insert Time](image-sources/list_inserttime_diagramm.png){width=400}
+
+
+![Lists: Lookup Time](image-sources/list_lookuptime_diagramm.png){width=400}
 
 5. Pick your favorite data structure, such as a B-tree or other slightly
    more interesting structure. Implement it, and start with a simple
