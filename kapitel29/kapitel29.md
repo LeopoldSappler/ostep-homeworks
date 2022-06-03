@@ -19,7 +19,7 @@ _Implementierung -> concurrent_counter.c_ (Quelle: OSTEP Chapter 29)
 Mit höherer Threadanzahl steigt auch die gemessene Zeit beim Concurrent Counter, wie in Figure 1 zu sehen ist. Hier wurden 1-4 Threads getestet, die jeweils bis 10.000.000 hochzählen.
 Das System auf dem getestet wurde hat 6 CPUs. 
 
-![Concurrent Counter](image-sources/concurrent_counter_diagramm.png){width=400}
+![Concurrent Counter](image-sources/concurrent_counter_diagramm.png){width=300}
 
 3. Next, build a version of the sloppy counter. Once again, measure its
    performance as the number of threads varies, as well as the threshold. Do the numbers match what you see in the chapter?
@@ -27,7 +27,7 @@ Das System auf dem getestet wurde hat 6 CPUs.
 _Implementierung -> sloppy_counter.c_ (Quelle: OSTEP Chapter 29)  
 Mit höherer Threadanzahl sollte eigentlich beim Sloppy Counter die Zeit sehr gering sein, jedoch funktioniert das bei unserem Code nicht, wie man in Figure 2 sehen kann. Grund ???
 
-![Concurrent Counter vs Sloppy Counter](image-sources/concurrent_vs_sloppy_diagramm.png){width=400}
+![Concurrent Counter vs Sloppy Counter](image-sources/concurrent_vs_sloppy_diagramm.png){width=300}
 
 4. Build a version of a linked list that uses hand-over-hand locking
     [MS04], as cited in the chapter. You should read the paper first
@@ -35,19 +35,25 @@ Mit höherer Threadanzahl sollte eigentlich beim Sloppy Counter die Zeit sehr ge
     performance. When does a hand-over-hand list work better than a
     standard list as shown in the chapter?
 
-_Implementierung -> sloppy_counter.c_ (Quelle: OSTEP Chapter 29, https://www.geeksforgeeks.org/linked-list-set-1-introduction)  
-In Figure 3 sieht man, wie lange 1-8 Threads brauchen, um jeweils 1.000.000 Elemente in die Concurrent und die Hand-Over-Hand Liste einzufügen. 
+_Implementierung -> handoverhand_linked_list.c_ und _concurrent_linked_list.c_ (Quelle fuer Struktur: OSTEP Chapter 29, https://www.geeksforgeeks.org/linked-list-set-1-introduction)  
+In Figure 3 wurde gemessen, wie lange 1-8 Threads brauchen, um jeweils 1.000.000 Elemente in die Concurrent und die Hand-Over-Hand Liste einzufügen. Wie man sehen kann, 
+sind beide Varianten der Linked List gleich schnell.  
 
-![Lists: Insert Time](image-sources/list_inserttime_diagramm.png){width=400}
+Die Suchzeit, wieder mit 1-8 Threads, wurde in Figure 4 gemessen. Die Hand-Over-Hand Liste braucht vermutlich länger, die Elemente zu finden, da sich die Threads gegenseitig blockieren.
 
+![Lists: Insert Time](image-sources/list_inserttime_diagramm.png){width=300}
 
-![Lists: Lookup Time](image-sources/list_lookuptime_diagramm.png){width=400}
+![Lists: Lookup Time](image-sources/list_lookuptime_diagramm.png){width=300}
 
 5. Pick your favorite data structure, such as a B-tree or other slightly
    more interesting structure. Implement it, and start with a simple
    locking strategy such as a single lock. Measure its performance as
    the number of concurrent threads increases.
 
-6. Finally, think of a more interesting locking strategy for this favorite
+_Implementierung -> concurrent_queue.c_
+
+7. Finally, think of a more interesting locking strategy for this favorite
    data structure of yours. Implement it, and measure its performance.
    How does it compare to the straightforward locking approach?
+
+_Implementierung -> michael_and_scott_queue.c_
